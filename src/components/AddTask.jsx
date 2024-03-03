@@ -1,11 +1,8 @@
-function AddTask({ db }) {
+function AddTask(props) {
     return (
-        <div className="todo-content">
-            {db.map((ele, idx) => (
-                <p key={idx}>
-                    {idx + 1}. {ele}
-                </p>
-            ))}
+        <div className="todo-item">
+            <p className="todo-item-text">{props.task}</p>
+            <button className="remove-button" onClick={() => props.handleRemove(props.task)}>Remove</button>
         </div>
     );
 }
