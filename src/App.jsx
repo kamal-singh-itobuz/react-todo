@@ -1,36 +1,25 @@
 import { useState } from 'react'
-import TaskContainer from './components/TaskContainer';
+import TaskList from './components/TaskList';
 import InputAdd from './components/InputAdd';
 import "./style.scss";
 
-
-
 function App() {
-    const [tasks, setTasks] = useState([]);
-    const handleInput = (value) => {
-        value = value.trim();
-        if(value === ''){
-            alert("Please Enter something!");
-            return;
-        }
-        if(tasks.includes(value)){
-            alert("This task in already added.");
-            return;
-        }
-        const newTasks = [value, ...tasks];
-        setTasks(newTasks);
+    const [db, setDB] = useState([]);
+    const [updateIndex, setUpdateIndex] = useState(null);
+    function deleteTask(index) {
+        const newDB = [...db];
+        newDB.splice(index, 1);
+        setDB(newDB);
     }
-
-    const handleRemove = (task) => {
-        const newTasks = tasks.filter(ele => ele !== task);
-        setTasks(newTasks);
+    function editTask(index) {
+        setUpdateIndex(index);
     }
 
     return (
         <div className="App">
             <h1>Add Your Todo Here </h1>
-            <InputAdd handleInput = {handleInput} />
-            <TaskContainer tasks = {tasks} handleRemove={handleRemove}/>
+            <InputAdd db={db} setDB={setDB} updateIndex={updateIndex} setUpdateIndex={setUpdateIndex}/>
+            <TaskList db={db} deleteTask={deleteTask} editTask={editTask} />
         </div>
     );
 }
